@@ -76,6 +76,7 @@ $lang_mybonus = array
 	'text_uploaded_note' => "With enough bonus points acquired, you are able to exchange them for an Upload Credit. The points are then removed from your Bonus Bank and the credit is added to your total uploaded amount.",
 	'text_uploaded_two' => "5.0 GB Uploaded",
 	'text_uploaded_three' => "10.0 GB Uploaded",
+	'text_uploaded_four' => "100.0 GB Uploaded",
 	'text_buy_invite' => "1 Invite",
 	'text_buy_invite_note' => "With enough bonus points acquired, you are able to exchange them for a few invites. The points are then removed from your Bonus Bank and the invitations are added to your invites amount.",
 	'text_custom_title' => "Custom Title!",

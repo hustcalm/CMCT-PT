@@ -87,7 +87,7 @@ elseif ($action == 'savesettings_code') 	// save database
 elseif ($action == 'savesettings_bonus') 	// save bonus
 {
 	stdhead($lang_settings['head_save_bonus_settings']);
-	$validConfig = array('donortimes','perseeding','maxseeding','tzero','nzero','bzero','l', 'uploadtorrent','uploadsubtitle','starttopic','makepost','addcomment','pollvote','offervote', 'funboxvote','saythanks','receivethanks','funboxreward','onegbupload','fivegbupload','tengbupload', 'ratiolimit','dlamountlimit','oneinvite','customtitle','vipstatus','bonusgift', 'basictax', 'taxpercentage', 'prolinkpoint', 'prolinktime');
+	$validConfig = array('donortimes','perseeding','maxseeding','tzero','nzero','bzero','l', 'uploadtorrent','uploadsubtitle','starttopic','makepost','addcomment','pollvote','offervote', 'funboxvote','saythanks','receivethanks','funboxreward','onegbupload','fivegbupload','tengbupload','onehundredgbupload', 'ratiolimit','dlamountlimit','oneinvite','customtitle','vipstatus','bonusgift', 'basictax', 'taxpercentage', 'prolinkpoint', 'prolinktime');
 	GetVar($validConfig);
 	unset($BONUS);
 	foreach($validConfig as $config) {
@@ -432,6 +432,7 @@ elseif ($action == 'bonussettings'){
 	tr($lang_settings['row_one_gb_credit'],$lang_settings['text_it_costs_user']."<input type='text' style=\"width: 50px\" name=onegbupload value='".(isset($BONUS["onegbupload"]) ? $BONUS["onegbupload"] : 300 )."'>".$lang_settings['text_one_gb_credit_note'], 1);
 	tr($lang_settings['row_five_gb_credit'],$lang_settings['text_it_costs_user']."<input type='text' style=\"width: 50px\" name=fivegbupload value='".(isset($BONUS["fivegbupload"]) ? $BONUS["fivegbupload"] : 800 )."'>".$lang_settings['text_five_gb_credit_note'], 1);
 	tr($lang_settings['row_ten_gb_credit'],$lang_settings['text_it_costs_user']."<input type='text' style=\"width: 50px\" name=tengbupload value='".(isset($BONUS["tengbupload"]) ? $BONUS["tengbupload"] : 1200 )."'>".$lang_settings['text_ten_gb_credit_note'], 1);
+	tr($lang_settings['row_onehundred_gb_credit'],$lang_settings['text_it_costs_user']."<input type='text' style=\"width: 50px\" name=onehundredgbupload value='".(isset($BONUS["onehundredgbupload"]) ? $BONUS["onehundredgbupload"] : 10300 )."'>".$lang_settings['text_onehundred_gb_credit_note'], 1);
 	tr($lang_settings['row_ratio_limit'],$lang_settings['text_user_with_ratio']."<input type='text' style=\"width: 50px\" name=ratiolimit value='".(isset($BONUS["ratiolimit"]) ? $BONUS["ratiolimit"] : 6 )."'>".$lang_settings['text_uploaded_amount_above']."<input type='text' style=\"width: 50px\" name=dlamountlimit value='".(isset($BONUS["dlamountlimit"]) ? $BONUS["dlamountlimit"] : 50 )."'>".$lang_settings['text_ratio_limit_default'], 1);
 	tr($lang_settings['row_buy_an_invite'],$lang_settings['text_it_costs_user']."<input type='text' style=\"width: 50px\" name=oneinvite value='".(isset($BONUS["oneinvite"]) ? $BONUS["oneinvite"] : 1000 )."'>".$lang_settings['text_buy_an_invite_note'], 1);
 	tr($lang_settings['row_custom_title'],$lang_settings['text_it_costs_user']."<input type='text' style=\"width: 50px\" name=customtitle value='".(isset($BONUS["customtitle"]) ? $BONUS["customtitle"] : 5000 )."'>".$lang_settings['text_custom_title_note'], 1);

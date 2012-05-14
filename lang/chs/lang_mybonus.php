@@ -76,6 +76,7 @@ $lang_mybonus = array
 	'text_uploaded_note' => "如果有足够的魔力值，你可以用它来换取上传量。交易完成后，你的魔力值会减少，上传量则会增加。",
 	'text_uploaded_two' => "5.0 GB上传量",
 	'text_uploaded_three' => "10.0 GB上传量",
+	'text_uploaded_four' => "100.0 GB上传量",
 	'text_buy_invite' => "1个邀请名额",
 	'text_buy_invite_note' => "如果有足够的魔力值，你可以用它来换取邀请名额。交易完成后，你的魔力值会减少，邀请名额数则会增加。",
 	'text_custom_title' => "自定义头衔",
