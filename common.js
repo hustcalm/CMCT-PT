@@ -371,4 +371,13 @@ if (document.getElementById("giftselect").value == '0'){
 document.getElementById("giftselect").disabled = true;
 document.getElementById("giftcustom").disabled = false;
 }
+
+// in forums.php
+function givebonus_post(postid,bonus,confirmtxt)
+{
+    if (confirm(confirmtxt)) {
+        var list = ajax.post('bonus.php', '', 'id='+postid+'&bonus='+bonus+'&type=post');
+        document.getElementById('post'+postid).innerHTML = document.getElementById('thanks'+postid).innerHTML;
+    }
+}
 }

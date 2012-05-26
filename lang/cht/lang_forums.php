@@ -198,6 +198,10 @@ $lang_forums = array
 	'text_topic_asc' => "發布時間升序",
 	'text_post_asc' => "最近回覆升序",
 	'text_post_desc' => "最近回覆降序",
+	'text_bonus_confirm' => "確定贈送%d點魔力值嗎？",
+	'text_bonus_thanks' => "魔力值已送出，謝謝！",
+	'text_bonus' => "贈送魔力值：",
+	'text_bonus_got' => "獲贈魔力值：",
 );
 
 ?>

@@ -2502,3 +2502,16 @@ INSERT INTO `agent_allowed_family` (
 VALUES (
 NULL , 'uTorrent 3.x', 'uTorrent/3000', '/^-UT3([0-9])([0-9])([0-9])-/', '3', 'dec', '-UT3000-', '/^uTorrent\\/3([0-9])([0-9])([0-9])/', '3', 'dec', 'uTorrent/3000', 'no', 'yes', '', '0'
 );
+-- 2011-06-04
+CREATE TABLE IF NOT EXISTS `bonuses` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `torrentid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `userid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `bonus` smallint(4) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `torrentid_id` (`torrentid`,`id`),
+  KEY `torrentid_userid` (`torrentid`,`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+-- 2012-05-25
+ALTER TABLE `bonuses` ADD `postid` MEDIUMINT( 8 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `torrentid` ,
+ADD UNIQUE `postid_id` ( `postid` , `id` ) ;

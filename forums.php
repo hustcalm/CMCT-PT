@@ -478,7 +478,7 @@ if ($action == "viewtopic")
 	$authorid = 0+$_GET["authorid"];
 	if ($authorid)
 	{
-		$where = "WHERE topicid=".sqlesc($topicid)." AND userid=".sqlesc($authorid);
+		$where = "WHERE topicid=".sqlesc($topicid)." AND posts.userid=".sqlesc($authorid);
 		$addparam = "action=viewtopic&topicid=".$topicid."&authorid=".$authorid;
 	}
 	else
@@ -504,6 +504,7 @@ if ($action == "viewtopic")
 	$hlcolor = $arr['hlcolor'];
 	$views = $arr['views'];
 	$forumid = $arr["forumid"];
+	$topicowner = $arr['userid'];
 
 	$row = get_forum_row($forumid);
 	//------ Get forum name, moderators
@@ -599,7 +600,7 @@ if ($action == "viewtopic")
 	$pagerbottom = "<p align=\"center\">".$pagerstr."<br />".$pager."</p>\n";
 	//------ Get posts
 
-	$res = sql_query("SELECT * FROM posts $where ORDER BY id LIMIT $offset,$perpage") or sqlerr(__FILE__, __LINE__);
+	$res = sql_query("SELECT posts.*, bonuses.bonus FROM posts LEFT JOIN bonuses ON posts.id = bonuses.postid $where ORDER BY id LIMIT $offset,$perpage") or sqlerr(__FILE__, __LINE__);
 
 	stdhead($lang_forums['head_view_topic']." \"".$orgsubject."\"");
 	begin_main_frame("",true);
@@ -687,7 +688,10 @@ if ($action == "viewtopic")
 			print("<a href=\"?action=viewtopic&topicid=".$topicid."\">".$lang_forums['text_view_all_posts']."</a>");
 		else
 			print("<a href=\"".htmlspecialchars("?action=viewtopic&topicid=".$topicid."&authorid=".$posterid)."\">".$lang_forums['text_view_this_author_only']."</a>");
-		print("</td><td class=\"embedded nowrap\" width=\"1%\"><font class=\"big\">".$lang_forums['text_number']."<b>".($pn+$offset)."</b>".$lang_forums['text_lou']."&nbsp;&nbsp;</font><a href=\"#top\"><img class=\"top\" src=\"pic/trans.gif\" alt=\"Top\" title=\"".$lang_forums['text_back_to_top']."\" /></a>&nbsp;&nbsp;</td></tr>");
+		$bonus = "";
+		if ($arr['bonus'] > 0)
+			$bonus = "<font color=\"grey\">".$lang_forums['text_bonus_got']."</font><b>".$arr['bonus']."</b>&nbsp;&nbsp;<font color=\"grey\">|</font>&nbsp;&nbsp;";
+		print("</td><td class=\"embedded nowrap\" width=\"1%\"><font class=\"big\">".$bonus.$lang_forums['text_number']."<b>".($pn+$offset)."</b>".$lang_forums['text_lou']."&nbsp;&nbsp;</font><a href=\"#top\"><img class=\"top\" src=\"pic/trans.gif\" alt=\"Top\" title=\"".$lang_forums['text_back_to_top']."\" /></a>&nbsp;&nbsp;</td></tr>");
 
 		print("</table></div>\n");
 
@@ -714,7 +718,24 @@ if ($action == "viewtopic")
 		$secs = 900;
 		$dt = sqlesc(date("Y-m-d H:i:s",(TIMENOW - $secs))); // calculate date.
 		print("<tr><td class=\"rowfollow\" align=\"center\" valign=\"middle\">".("'".$arr2['last_access']."'">$dt?"<img class=\"f_online\" src=\"pic/trans.gif\" alt=\"Online\" title=\"".$lang_forums['title_online']."\" />":"<img class=\"f_offline\" src=\"pic/trans.gif\" alt=\"Offline\" title=\"".$lang_forums['title_offline']."\" />" )."<a href=\"sendmessage.php?receiver=".htmlspecialchars(trim($arr2["id"]))."\"><img class=\"f_pm\" src=\"pic/trans.gif\" alt=\"PM\" title=\"".$lang_forums['title_send_message_to'].htmlspecialchars($arr2["username"])."\" /></a><a href=\"report.php?forumpost=$postid\"><img class=\"f_report\" src=\"pic/trans.gif\" alt=\"Report\" title=\"".$lang_forums['title_report_this_post']."\" /></a></td>");
-		print("<td class=\"toolbox\" align=\"right\">");
+		print("<td class=\"toolbox\" align=\"right\" valign=\"middle\">");
+
+		// give bonus block
+		if ($CURUSER['id'] == $topicowner)
+		{
+			if ($CURUSER['id'] != $posterid && !$arr['bonus']) {
+				$bonus_array = array(10,20,50,100,200,500,1000);
+				$bonus_block = "<span id=\"thanks".$postid."\" style=\"display: none;\"><input class=\"btn\" type=\"button\" value=\"".$lang_forums['text_bonus_thanks']."\" disabled=\"disabled\"></span> ";
+				$bonus_block .= "<span id=\"post".$postid."\"><font color=\"grey\">".$lang_forums['text_bonus']."</font>";
+				foreach ($bonus_array as $x) {
+					if ($CURUSER["seedbonus"] < $x) break;
+					$confirm_text = sprintf($lang_forums['text_bonus_confirm'], $x);
+					$bonus_block .= "<input class=\"btn\" style=\"width: 50px;\" type=\"button\" value=\"$x\" onclick=\"givebonus_post($postid, $x, '$confirm_text');\" /> ";
+				}
+				$bonus_block .= "</span>";
+				print($bonus_block);
+			}
+		}
 
 		if ($maypost)
 		print("<a href=\"".htmlspecialchars("?action=quotepost&postid=".$postid)."\"><img class=\"f_quote\" src=\"pic/trans.gif\" alt=\"Quote\" title=\"".$lang_forums['title_reply_with_quote']."\" /></a>");
