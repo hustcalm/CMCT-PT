@@ -4322,4 +4322,19 @@ function return_category_image($categoryid, $link="")
 	}
 	return $catimg;
 }
+
+function pm_user($subject, $msg, $receiver, $sender=0)
+{
+	$dt = sqlesc(date("Y-m-d H:i:s"));
+	$subject = sqlesc($subject);
+	$msg = sqlesc($msg);
+	$receiver = 0 + $receiver;
+	if (get_row_count('users', 'WHERE id = '.$receiver) == 0)
+		stderr($lang_functions['std_failed'], $lang_functions['text_none']);
+	$sender = 0 + $sender;
+	if ($sender > 0 && get_row_count('users', 'WHERE id = '.$sender) == 0)
+		stderr($lang_functions['std_failed'], $lang_functions['text_none']);
+	sql_query("INSERT INTO messages (sender, receiver, subject, added, msg) VALUES($sender, $receiver, $subject, $dt, $msg)") or sqlerr(__FILE__, __LINE__);	
+}
+
 ?>
