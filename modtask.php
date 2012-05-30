@@ -84,7 +84,7 @@ if ($action == "edituser")
 	$updateset[] = "supportfor = " . sqlesc($supportfor);
 	$updateset[] = "supportlang = ".sqlesc($supportlang);
 	
-	if(get_user_class<=$cruprfmanage_class)
+	if(get_user_class() <= $cruprfmanage_class)
 	{
 		$modcomment = $arr["modcomment"];
 	}
