@@ -2515,3 +2515,5 @@ CREATE TABLE IF NOT EXISTS `bonuses` (
 -- 2012-05-25
 ALTER TABLE `bonuses` ADD `postid` MEDIUMINT( 8 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `torrentid` ,
 ADD UNIQUE `postid_id` ( `postid` , `id` ) ;
+-- 2012-06-23
+ALTER TABLE `cheaters` ADD INDEX `userid` ( `userid` ) ;

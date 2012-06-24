@@ -223,6 +223,23 @@ if (mysql_num_rows($res) > 0)
 if ($clientselect)
 	tr_small($lang_userdetails['row_bt_client'], $clientselect, 1);
 
+// cheat suspect statistics
+if (get_user_class() >= $userprofile_class)
+{
+	$userid = sqlesc($user['id']);
+	$res = sql_query("SELECT COUNT(*) AS cheat_count, SUM(hit) AS cheat_hit FROM cheaters WHERE userid = ".$userid);
+	$arr = mysql_fetch_assoc($res);
+	$cheat_count = $arr['cheat_count'];
+	$cheat_hit = $arr['cheat_hit'] + $cheat_count; // for cheat suspect count once, cheaters.hit is zero
+
+	$recent_days = 7;
+	$res = sql_query("SELECT COUNT(*) AS cheat_count, SUM(hit) AS cheat_hit FROM cheaters WHERE userid = ".$userid." AND DATEDIFF(NOW(), added) <= $recent_days");
+	$arr = mysql_fetch_assoc($res);
+	$cheat_count_recent = $arr['cheat_count'];
+	$cheat_hit_recent = $arr['cheat_hit'] + $cheat_count_recent;
+
+	tr_small($lang_userdetails['row_cheat_suspect'], "<a href=\"cheaterbox.php?userid=$userid\">".sprintf($lang_userdetails['text_cheat_suspect'], $cheat_count, $cheat_hit, $recent_days, $cheat_count_recent, $cheat_hit_recent)."</a>", 1);
+}
 
 if ($user["downloaded"] > 0)
 {

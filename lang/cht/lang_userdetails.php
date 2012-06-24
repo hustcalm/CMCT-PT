@@ -141,5 +141,7 @@ $lang_userdetails = array
 	'row_show_ad' => "察看廣告",
 	'row_no_ad_until' => "不顯示廣告直到",
 	'text_no_ad_until_note' => "時間格式為'年年年年-月月-日日 時時:分分:秒秒'。無廣告待遇結束的時間。",
+	'row_cheat_suspect' => "作弊嫌疑",
+	'text_cheat_suspect' => "累計：%d個種子，共計%d次；%d天內：%d個種子，共計%d次",
 );
 ?>

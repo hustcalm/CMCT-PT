@@ -22,12 +22,17 @@ elseif ($_POST['delete']){
 	$Cache->delete_value('staff_new_cheater_count');
 }
 
-$count = get_row_count("cheaters");
+$userid = 0 + $_GET['userid'];
+
+if ($userid)
+	$count = get_row_count('cheaters', 'WHERE userid = '.sqlesc($userid));
+else
+	$count = get_row_count("cheaters");
 if (!$count){
 	stderr($lang_cheaterbox['std_oho'], $lang_cheaterbox['std_no_suspect_detected']);
 }
 $perpage = 10;
-list($pagertop, $pagerbottom, $limit) = pager($perpage, $count, "cheaterbox.php?");
+list($pagertop, $pagerbottom, $limit) = pager($perpage, $count, "cheaterbox.php?".($userid ? "userid=$userid&" : ''));
 stdhead($lang_cheaterbox['head_cheaterbox']);
 ?>
 <style type="text/css">
@@ -43,7 +48,11 @@ print("<table class=cheaterbox border=1 cellspacing=0 cellpadding=5 align=center
 print("<tr><td class=colhead><nobr>".$lang_cheaterbox['col_added']."</nobr></td><td class=colhead>".$lang_cheaterbox['col_suspect']."</td><td class=colhead><nobr>".$lang_cheaterbox['col_hit']."</nobr></td><td class=colhead>".$lang_cheaterbox['col_torrent']."</td><td class=colhead>".$lang_cheaterbox['col_ul']."</td><td class=colhead>".$lang_cheaterbox['col_dl']."</td><td class=colhead><nobr>".$lang_cheaterbox['col_ann_time']."</nobr></td><td class=colhead><nobr>".$lang_cheaterbox['col_seeders']."</nobr></td><td class=colhead><nobr>".$lang_cheaterbox['col_leechers']."</nobr></td><td class=colhead>".$lang_cheaterbox['col_comment']."</td><td class=colhead><nobr>".$lang_cheaterbox['col_dealt_with']."</nobr></td><td class=colhead><nobr>".$lang_cheaterbox['col_action']."</nobr></td></tr>");
 
 print("<form method=post action=cheaterbox.php>");
-$cheatersres = sql_query("SELECT * FROM cheaters ORDER BY dealtwith ASC, id DESC $limit");
+
+if ($userid)
+	$cheatersres = sql_query("SELECT * FROM cheaters WHERE userid = ".sqlesc($userid)." ORDER BY dealtwith ASC, id DESC $limit");
+else
+	$cheatersres = sql_query("SELECT * FROM cheaters ORDER BY dealtwith ASC, id DESC $limit");
 
 while ($row = mysql_fetch_array($cheatersres))
 {
