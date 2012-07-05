@@ -9,7 +9,7 @@ if(isset($_POST[conusr]))
 	sql_query("UPDATE users SET status = 'confirmed', editsecret = '' WHERE id IN (" . implode(", ", $_POST[conusr]) . ") AND status='pending'");
 else
 	stderr($lang_takeconfirm['std_sorry'],$lang_takeconfirm['std_no_buddy_to_confirm'].
- "<a class=altlink href=invite.php?id=$CURUSER[id]>".$lang_takeconfirm['std_here_to_go_back'],false);		
+ "<a class=altlink href=invite.php?id=$id>".$lang_takeconfirm['std_here_to_go_back'],false);		
 
 $title = $SITENAME.$lang_takeconfirm['mail_title'];
 $body = <<<EOD
@@ -22,5 +22,5 @@ EOD;
 //this mail is sent when the site is using admin(open/closed)/inviter(closed) confirmation and the admin/inviter confirmed the pending user
 sent_mail($email,$SITENAME,$SITEEMAIL,change_email_encode(get_langfolder_cookie(), $title),change_email_encode(get_langfolder_cookie(),$body),"invite confirm",false,false,'',get_email_encode(get_langfolder_cookie()));
 
-header("Refresh: 0; url=invite.php?id=".htmlspecialchars($CURUSER[id]));
+header("Refresh: 0; url=invite.php?id=".htmlspecialchars($id));
 ?>

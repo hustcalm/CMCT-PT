@@ -111,7 +111,7 @@ if ($type == 'new'){
 	if ($CURUSER[id] == $id || get_user_class() >= UC_SYSOP)
 	{
 
-		$pendingcount = number_format(get_row_count("users", "WHERE  status='pending' AND invited_by=$CURUSER[id]"));
+		$pendingcount = number_format(get_row_count("users", "WHERE  status='pending' AND invited_by=$id"));
 		if ($pendingcount){
 		print("<input type=hidden name=email value=$arr[email]>");
 		print("<tr><td colspan=7 align=right><input type=submit style='height: 20px' value=".$lang_invite['submit_confirm_users']."></td></tr>");
